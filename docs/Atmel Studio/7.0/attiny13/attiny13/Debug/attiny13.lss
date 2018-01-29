@@ -1,0 +1,171 @@
+
+attiny13.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000007e  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  000000f2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  00800060  00800060  000000f2  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000000f2  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000124  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000030  00000000  00000000  00000160  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000003c1  00000000  00000000  00000190  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000352  00000000  00000000  00000551  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000020e  00000000  00000000  000008a3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000044  00000000  00000000  00000ab4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000260  00000000  00000000  00000af8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000020  00000000  00000000  00000d58  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	16 c0       	rjmp	.+44     	; 0x30 <__bad_interrupt>
+   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
+   6:	14 c0       	rjmp	.+40     	; 0x30 <__bad_interrupt>
+   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
+   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
+   c:	11 c0       	rjmp	.+34     	; 0x30 <__bad_interrupt>
+   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
+  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
+  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_clear_bss>:
+  1c:	20 e0       	ldi	r18, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+
+00000024 <.do_clear_bss_loop>:
+  24:	1d 92       	st	X+, r1
+
+00000026 <.do_clear_bss_start>:
+  26:	a1 36       	cpi	r26, 0x61	; 97
+  28:	b2 07       	cpc	r27, r18
+  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
+  2c:	0e d0       	rcall	.+28     	; 0x4a <main>
+  2e:	25 c0       	rjmp	.+74     	; 0x7a <_exit>
+
+00000030 <__bad_interrupt>:
+  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+
+00000032 <adc_init>:
+    }
+}
+
+void adc_init(void){
+	// Set the ADC input to PB2/ADC1
+	ADMUX |= (1 << MUX1);
+  32:	39 9a       	sbi	0x07, 1	; 7
+	//ADMUX |= (1<<REFS0); 
+	ADMUX |= (1 << ADLAR);	
+  34:	3d 9a       	sbi	0x07, 5	; 7
+	// Set the prescaler to clock/128 & enable ADC
+	// At 9.6 MHz this is 75 kHz.
+	// See ATtiny13 datasheet, Table 14.4.
+	ADCSRA |= (1 << ADPS2) |(1 << ADPS1) | (1 << ADPS0) | (1 << ADEN);              //Do an initial conversion because this one is the slowest and to ensure that everything is up and running
+  36:	86 b1       	in	r24, 0x06	; 6
+  38:	87 68       	ori	r24, 0x87	; 135
+  3a:	86 b9       	out	0x06, r24	; 6
+  3c:	08 95       	ret
+
+0000003e <read_adc>:
+}
+
+uint16_t read_adc(){
+	// Start the conversion
+	ADCSRA |= (1 << ADSC);	
+  3e:	36 9a       	sbi	0x06, 6	; 6
+	// Wait for it to finish
+	while (ADCSRA & (1 << ADSC));	
+  40:	36 99       	sbic	0x06, 6	; 6
+  42:	fe cf       	rjmp	.-4      	; 0x40 <__SREG__+0x1>
+	return ADCH;                //Returns the ADC value of the chosen channel
+  44:	85 b1       	in	r24, 0x05	; 5
+  46:	90 e0       	ldi	r25, 0x00	; 0
+  48:	08 95       	ret
+
+0000004a <main>:
+
+uint8_t inputTemp=0;
+
+int main(void)
+{
+	DDRB |=  (1<<PB1);
+  4a:	b9 9a       	sbi	0x17, 1	; 23
+	DDRB |=  (1<<PB3);
+  4c:	bb 9a       	sbi	0x17, 3	; 23
+	DDRB |=  (1<<PB2);
+  4e:	ba 9a       	sbi	0x17, 2	; 23
+	DDRB &=~ (1<<PB0);
+  50:	b8 98       	cbi	0x17, 0	; 23
+adc_init(); 
+  52:	ef df       	rcall	.-34     	; 0x32 <adc_init>
+    
+    while (1) 
+    {	
+		inputTemp = PINB & 0x01  ;
+  54:	86 b3       	in	r24, 0x16	; 22
+  56:	81 70       	andi	r24, 0x01	; 1
+  58:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
+	if (inputTemp ==0x00)
+  5c:	81 11       	cpse	r24, r1
+  5e:	02 c0       	rjmp	.+4      	; 0x64 <main+0x1a>
+		{
+			PORTB |= (1<<PB2);
+  60:	c2 9a       	sbi	0x18, 2	; 24
+  62:	01 c0       	rjmp	.+2      	; 0x66 <main+0x1c>
+			
+		}
+		else
+		{
+			PORTB  &=~(1<<PB2);
+  64:	c2 98       	cbi	0x18, 2	; 24
+			
+		}
+uint16_t x= read_adc();
+  66:	eb df       	rcall	.-42     	; 0x3e <read_adc>
+
+
+if (x >= 128){
+  68:	80 38       	cpi	r24, 0x80	; 128
+  6a:	91 05       	cpc	r25, r1
+  6c:	18 f0       	brcs	.+6      	; 0x74 <main+0x2a>
+	PORTB|=(1<<PB1);
+  6e:	c1 9a       	sbi	0x18, 1	; 24
+	PORTB &=~ (1<<PB3);
+  70:	c3 98       	cbi	0x18, 3	; 24
+  72:	f0 cf       	rjmp	.-32     	; 0x54 <main+0xa>
+	//_delay_ms(500);
+}
+else{
+	
+	PORTB|=(1<<PB3);
+  74:	c3 9a       	sbi	0x18, 3	; 24
+	PORTB &=~ (1<<PB1);
+  76:	c1 98       	cbi	0x18, 1	; 24
+  78:	ed cf       	rjmp	.-38     	; 0x54 <main+0xa>
+
+0000007a <_exit>:
+  7a:	f8 94       	cli
+
+0000007c <__stop_program>:
+  7c:	ff cf       	rjmp	.-2      	; 0x7c <__stop_program>

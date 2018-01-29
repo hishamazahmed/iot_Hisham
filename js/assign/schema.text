@@ -1,0 +1,16 @@
+
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Sensor Data",
+    
+    "type":"object",
+        "properties": {
+            "name": {"type":"string"},
+            "value":{"type": "number" },
+            "id":{"type":"integer"}
+
+
+        },
+        "required": ["name", "value","id"]
+           
+    }

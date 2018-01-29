@@ -1,0 +1,13 @@
+Example app listening on port 3000!
+Example app listening on port 3000!
+Example app listening on port 3000!
+2017-11-08T16:57:14.985Z : [Robot 1] - Starting connections.
+2017-11-08T16:57:15.023Z : [Robot 1] - Starting connection 'edison'.
+2017-11-08T16:57:15.116Z : [Robot 1] - Starting devices.
+2017-11-08T16:57:15.118Z : [Robot 1] - Starting device 'led' on pin 12.
+2017-11-08T16:57:15.118Z : [Robot 1] - Working.
+2017-11-08T16:57:34.141Z : [Robot 1] - Starting connections.
+2017-11-08T16:57:34.179Z : [Robot 1] - Starting connection 'edison'.
+2017-11-08T16:57:34.272Z : [Robot 1] - Starting devices.
+2017-11-08T16:57:34.274Z : [Robot 1] - Starting device 'led' on pin 12.
+2017-11-08T16:57:34.275Z : [Robot 1] - Working.

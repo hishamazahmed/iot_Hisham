@@ -1,0 +1,86 @@
+{
+  "project": {
+    "projectSettingsVersion": "3.0.0",
+    "currentBuildConfiguration": null,
+    "projectFiles": {},
+    "projectDirectories": {}
+  },
+  "editorTab": {
+    "currentEditorMode": 0
+  },
+  "iot-tab": {
+    "fileStatus": {
+      ".gitignore": {
+        "previousModTime": 1511428688269,
+        "modified": 1511428688269,
+        "seen": true,
+        "name": ".gitignore"
+      },
+      "analogread.xdk": {
+        "previousModTime": 1511428689035,
+        "modified": 1511428689035,
+        "seen": true,
+        "name": "analogread.xdk"
+      },
+      "analogread.xdke": {
+        "previousModTime": 1511431470685,
+        "modified": 1511431470685,
+        "seen": true,
+        "name": "analogread.xdke"
+      },
+      "icon.png": {
+        "previousModTime": 1511428688275,
+        "modified": 1511428688275,
+        "seen": true,
+        "name": "icon.png"
+      },
+      "LICENSE.md": {
+        "previousModTime": 1511428688287,
+        "modified": 1511428688287,
+        "seen": true,
+        "name": "LICENSE.md"
+      },
+      "main.js": {
+        "previousModTime": 1511431593322,
+        "modified": 1511431593322,
+        "seen": true,
+        "name": "main.js"
+      },
+      "package.json": {
+        "previousModTime": 1511428688273,
+        "modified": 1511428688273,
+        "seen": true,
+        "name": "package.json"
+      },
+      "README.md": {
+        "previousModTime": 1511428688273,
+        "modified": 1511428688273,
+        "seen": true,
+        "name": "README.md"
+      },
+      "utl/cfg-app-platform.js": {
+        "previousModTime": 1511428688319,
+        "modified": 1511428688319,
+        "seen": true,
+        "name": "utl/cfg-app-platform.js"
+      },
+      "utl/version-compare.js": {
+        "previousModTime": 1511428688278,
+        "modified": 1511428688278,
+        "seen": true,
+        "name": "utl/version-compare.js"
+      },
+      "xdk/project-info.json": {
+        "previousModTime": 1511428688790,
+        "modified": 1511428688790,
+        "seen": true,
+        "name": "xdk/project-info.json"
+      }
+    },
+    "boardFileStatus": {
+      "main.js": {
+        "previousModTime": 1511431593891
+      }
+    }
+  }
+}
